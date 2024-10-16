@@ -1,44 +1,33 @@
+const input = document.querySelector('.inp');
+const strength = document.querySelector('.str');
 
-let input = document.querySelector('.inp')
-let strength = document.querySelector(".str")
 
-function checkstrength() {
-  let str = input.value
+function checkStrength() {
+  const str = input.value;
 
-  let lowercount = 0;
-  let uppercount = 0;
-  let numbercount = 0;
-  let splchr = 0;
+  const lowerRegex = /[a-z]/g;
+  const upperRegex = /[A-Z]/g;
+  const numberRegex = /[0-9]/g;
+  const specialRegex = /[!@#$%^&*(),.?":{}|<>]/g;
 
-  const specialChars = /[!@#$%^&*(),.?":{}|<>]/;
+  const lowerCount = (str.match(lowerRegex) || []).length;
+  const upperCount = (str.match(upperRegex) || []).length;
+  const numberCount = (str.match(numberRegex) || []).length;
+  const specialCount = (str.match(specialRegex) || []).length;
 
-  for (let i = 0; i < str.length; i++) {
+  console.log(lowerCount, upperCount, numberCount, specialCount);
 
-    const char = str[i];
-
-    if (char.match(/[a-z]/)) {
-      lowercount++
-    } else if (char.match(/[A-Z]/)) {
-      uppercount++
-    } else if (char.match(/[0-9]/)) {
-      numbercount++
-    } else if (char.match(specialChars)) {
-      splchr++
-    }
-
-  }
-  console.log(lowercount, uppercount, numbercount, splchr);
-
-  if (str.length > 8 && lowercount > 1 && uppercount > 1 && numbercount > 1 && splchr > 1) {
-    strength.innerText = "STRONG"
-    strength.style.color = "red"
-  } else if (str.length > 8 && lowercount > 1 && uppercount > 1 && numbercount > 1 || splchr > 1) {
-    strength.innerText = "MEDIUM"
-    strength.style.color = "orange"
+  if (str.length >= 8 && lowerCount >= 1 && upperCount >= 1 && numberCount >= 1 && specialCount >= 1) {
+    strength.innerText = "STRONG";
+    strength.style.color = "green"; 
+  } else if (str.length >= 8 && ((lowerCount >= 1 && upperCount >= 1 && numberCount >= 1) || specialCount >= 1)) {
+    strength.innerText = "MEDIUM";
+    strength.style.color = "orange";
   } else {
-    strength.innerText = "WEAK"
-    strength.style.color = "green"
+    strength.innerText = "WEAK";
+    strength.style.color = "red"; 
   }
 }
 
-input.addEventListener('keydown', checkstrength)
+// Add event listener for 'input' event (more appropriate for real-time feedback)
+input.addEventListener('input', checkStrength);
